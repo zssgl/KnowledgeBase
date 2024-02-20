@@ -16,11 +16,13 @@ A MapReduce framework (or system) is usually composed of three operations (or st
 3. **Reduce:** worker nodes now process each group of output data, per key, in parallel.
 
 > [!tip] Key/Value Pairs
-> ```
-> map(k1, v1) ­> list(k2, v2) 
-> reduce(k2, list(v2)) ­> list(v3)
+> ```python
+> # ("word", text) -> ("word", 1) 
+> map(k1, v1) -­> list(k2, v2)             
+>  # ("word", [1,1,2,3])-> ("word", 7)
+> reduce(k2, list(v2)) -­> list(k2, v3)     
 >```
-> map出来的东西再给reduce处理{ #mapreduce-function}
+> map出来的东西再给reduce处理，task之间存在dependency{ #mapreduce-function}
 
 
 ![Pasted image 20240201121855.png](/img/user/%E9%99%84%E4%BB%B6/Pasted%20image%2020240201121855.png)
@@ -28,6 +30,8 @@ A MapReduce framework (or system) is usually composed of three operations (or st
 - The map component of a MapReduce job typically parses input data and distills it down to some intermediate result. 
 - The reduce component of a MapReduce job collates these intermediate results and distills them down even further to the desired output.
 ![Pasted image 20240201122141.png](/img/user/%E9%99%84%E4%BB%B6/Pasted%20image%2020240201122141.png)
+
+
 
 ## 5步流程
 Another way to look at MapReduce is as a 5-step parallel and distributed computation:
@@ -38,6 +42,8 @@ Another way to look at MapReduce is as a 5-step parallel and distributed computa
 4. **Run the user-provided Reduce() code** – Reduce() is run exactly once for each _K2_ key produced by the Map step.
 5. **Produce the final output** – the MapReduce system collects all the Reduce output, and sorts it by _K2_ to produce the final outcome.
 
+![Pasted image 20240201175518.png](/img/user/%E9%99%84%E4%BB%B6/Pasted%20image%2020240201175518.png)
+
 ## 优点
 即使编程人员不了解分布式计算框架的内部运行机制，只要够参照 Map 和 Reduce 的思想描述清楚要处理的问题，即编写 map 函数和 reduce 函数，就可以轻松地实现大数据的分布式计算。
 
@@ -45,6 +51,7 @@ Another way to look at MapReduce is as a 5-step parallel and distributed computa
 
 ## 总结
 Map中的每一个key都是可以并行的
+框架会把相同的k2给同一个reduce处理
 
 ## Example
 Simple example of word count (wc):
